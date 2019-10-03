@@ -31,6 +31,19 @@ if test "$enableval" = "yes"; then
 	warn_CFLAGS="-Wall -Wextra -pedantic"
 fi
 
+NEED_LIBGCRYPT_API=1
+NEED_LIBGCRYPT_VERSION=1.8.0
+
+AC_DEFINE_UNQUOTED(NEED_LIBGCRYPT_VERSION,
+                   "$NEED_LIBGCRYPT_VERSION",
+                   [Minimum version of libgcrypt])
+
+AM_PATH_LIBGCRYPT("$NEED_LIBGCRYPT_API:$NEED_LIBGCRYPT_VERSION",, [
+	AC_MSG_ERROR([\
+$PACKAGE_NAME requires libgcrypt version $NEED_LIBGCRYPT_VERSION \
+(API version $NEED_LIBGCRYPT_API) or later.])
+])
+
 AC_PROG_CC
 
 AC_CONFIG_HEADERS([config.h])
