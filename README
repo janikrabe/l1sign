@@ -1,0 +1,18 @@
+l1sign
+======
+
+Version 0.0.0
+
+Implementation of the Lamport one-time signature scheme
+
+l1sign is a portable implementation of the Lamport-Diffie one-time signature
+scheme (LD-OTS).  It allows users to generate key pairs, sign messages, and
+verify signatures.
+
+The INSTALL file contains instructions for installing l1sign.  Please consult
+the l1sign(1) manual page for information on how to use l1sign.
+
+l1sign is maintained by Janik Rabe <l1sign@janikrabe.com>.
+
+The most recent version of l1sign is available from
+<https://files.janikrabe.com/pub/l1sign/releases/latest/>.
