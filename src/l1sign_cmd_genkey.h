@@ -16,27 +16,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef L1SIGN_H
-#define L1SIGN_H
+#ifndef L1SIGN_CMD_GENKEY_H
+#define L1SIGN_CMD_GENKEY_H
 
-#include <stdbool.h>
-#include <stdio.h>
+#include "l1sign.h"
 
-struct options {
-	int hash;
-	bool verbose;
-};
-
-struct command {
-	char *name;
-	char *description;
-	int (*invoke)(const struct options *opts, int argc, char **argv);
-};
-
-const struct command *find_command(const char *name);
-void print_header(void);
-void print_cmd_usage(char *usage);
-void print_usage(FILE *out);
-int main(int argc, char **argv);
+int l1_cmd_genkey(const struct options *opts, int argc, char **argv);
 
 #endif

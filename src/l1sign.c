@@ -24,9 +24,16 @@
 
 #include "l1sign_gcrypt.h"
 
-#include "config.h"
+#include "l1sign_cmd_genkey.h"
+
+#include <config.h>
 
 static const struct command commands[] = {
+	{
+		"genkey",
+		"Generate a random private key",
+		l1_cmd_genkey,
+	},
 	{
 		NULL,
 		NULL,
@@ -50,9 +57,14 @@ void print_header(void) {
 	printf("%s\n\n", PACKAGE_URL);
 }
 
+void print_cmd_usage(char *usage) {
+	print_header();
+	fprintf(stderr, "Usage: " PACKAGE_NAME " [options] %s\n", usage);
+}
+
 void print_usage(FILE *out) {
 	char usage[] =
-			"Usage: " PACKAGE_NAME " <command> [options]\n\n"
+			"Usage: " PACKAGE_NAME " [options] <command> [args]\n\n"
 			"Commands:\n";
 	fputs(usage, out);
 
@@ -65,24 +77,71 @@ void print_usage(FILE *out) {
 	}
 }
 
+void print_arg_required(char *opt) {
+	fprintf(stderr, "Option '%s' requires an argument\n", opt);
+}
+
 int main(int argc, char **argv) {
 	const struct command *cmd;
+	struct options opts = { 0 };
+	int next = 0;
 
-	if (argc < 2) {
+	while (argv[++next] && argv[next][0] == '-') {
+		if (!strcmp(argv[next], "-H") || !strcmp(argv[next], "--hash")) {
+			char *hash_name = argv[++next];
+
+			if (!hash_name) {
+				print_arg_required(argv[next - 1]);
+				return EXIT_FAILURE;
+			}
+
+			if (!(opts.hash = gcry_md_map_name(hash_name))) {
+				fprintf(stderr, "Unknown hash algorithm: %s\n", hash_name);
+				return EXIT_FAILURE;
+			}
+		} else if (!strcmp(argv[next], "-v") || !strcmp(argv[next], "--verbose")) {
+			opts.verbose = true;
+		} else if (!strcmp(argv[next], "-h") || !strcmp(argv[next], "--help")) {
+			print_header();
+			print_usage(stdout);
+			return EXIT_SUCCESS;
+		} else if (!strcmp(argv[next], "--")) {
+			++next;
+			break;
+		} else {
+			fprintf(stderr, "Unknown option: %s\n", argv[next]);
+			return EXIT_FAILURE;
+		}
+	}
+
+	if (!argv[next]) {
 		print_header();
 		print_usage(stdout);
 		return EXIT_SUCCESS;
 	}
 
-	cmd = find_command(argv[1]);
+	cmd = find_command(argv[next]);
 
 	if (!cmd) {
-		fprintf(stderr, "No such command: %s\n", argv[1]);
+		fprintf(stderr, "No such command: %s\n", argv[next]);
 		print_usage(stderr);
 		return EXIT_FAILURE;
 	}
 
-	if (!l1_gcry_init(L1_MAX_KEY_BYTES)) {
+	++next;
+
+	if (!opts.hash) {
+		opts.hash = GCRY_MD_BLAKE2B_512;
+	}
+
+	if (opts.verbose) {
+		unsigned int hash_bytes = l1_gcry_hash_nbytes(opts.hash);
+		fprintf(stderr, "Hash: %s (%d bits)\n",
+				gcry_md_algo_name(opts.hash),
+				hash_bytes * 8);
+	}
+
+	if (!l1_gcry_init(opts.hash)) {
 		return EXIT_FAILURE;
 	}
 
@@ -92,5 +151,5 @@ int main(int argc, char **argv) {
 		return EXIT_FAILURE;
 	}
 
-	return cmd->invoke(argc - 2, &argv[2]);
+	return cmd->invoke(&opts, argc - next, &argv[next]);
 }
