@@ -52,6 +52,8 @@ AC_CONFIG_FILES([
 	src/Makefile
 ])
 
+AC_CHECK_SIZEOF([int])
+
 AC_SUBST([warn_CFLAGS])
 
 AC_OUTPUT

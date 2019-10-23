@@ -16,26 +16,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include <stdio.h>
+#define GCRYPT_NO_DEPRECATED
+#include <gcrypt.h>
 
-#include <config.h>
+#include <stdbool.h>
 
-/*
- * Maximum key size for secret memory initialization.
- */
-#if SIZEOF_INT >= 4
-#	define L1_MAX_KEY_BYTES (1 << 16) /* 512-bit hash functions */
-#else
-#	define L1_MAX_KEY_BYTES (1 << 14) /* 256-bit hash functions */
-#endif
-
-struct command {
-	char *name;
-	char *description;
-	int (*invoke)(int argc, char **argv);
-};
-
-const struct command *find_command(const char *name);
-void print_header(void);
-void print_usage(FILE *out);
-int main(int argc, char **argv);
+void l1_gcry_handle_err(const char *desc, gcry_error_t err);
+bool l1_gcry_init(int secmem_nbytes);
+void l1_gcry_term(void);

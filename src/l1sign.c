@@ -22,6 +22,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "l1sign_gcrypt.h"
+
 #include "config.h"
 
 static const struct command commands[] = {
@@ -77,6 +79,16 @@ int main(int argc, char **argv) {
 	if (!cmd) {
 		fprintf(stderr, "No such command: %s\n", argv[1]);
 		print_usage(stderr);
+		return EXIT_FAILURE;
+	}
+
+	if (!l1_gcry_init(L1_MAX_KEY_BYTES)) {
+		return EXIT_FAILURE;
+	}
+
+	if (atexit(l1_gcry_term)) {
+		fprintf(stderr, "Failed to register exit handler\n");
+		l1_gcry_term();
 		return EXIT_FAILURE;
 	}
 

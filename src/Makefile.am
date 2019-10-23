@@ -5,4 +5,5 @@ AM_CFLAGS = $(warn_CFLAGS) $(LIBGCRYPT_CFLAGS)
 l1sign_LDADD = $(LIBGCRYPT_LIBS)
 
 l1sign_SOURCES = \
-	l1sign.c
+	l1sign.c \
+	l1sign_gcrypt.c
