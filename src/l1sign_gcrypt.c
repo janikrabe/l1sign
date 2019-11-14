@@ -60,7 +60,6 @@ bool l1_gcry_init(int algo) {
 		return false;
 	}
 
-
 	return true;
 }
 
@@ -95,4 +94,26 @@ unsigned int l1_gcry_hash_nbytes(int algo) {
 unsigned int l1_gcry_key_nbytes(int algo) {
 	unsigned int bytes = l1_gcry_hash_nbytes(algo);
 	return 2 * bytes * (bytes * 8);
+}
+
+gcry_md_hd_t l1_gcry_hash_hd_create(int algo, bool secure) {
+	unsigned int flags = 0;
+
+	gcry_error_t err = 0;
+	gcry_md_hd_t hd;
+
+	if (secure) {
+		flags |= GCRY_MD_FLAG_SECURE;
+	}
+
+	if ((err = gcry_md_open(&hd, algo, flags))) {
+		l1_gcry_handle_err("Failed to create message digest object", err);
+		return NULL;
+	}
+
+	return hd;
+}
+
+void l1_gcry_hash_hd_destroy(gcry_md_hd_t hd) {
+	gcry_md_close(hd);
 }

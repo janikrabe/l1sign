@@ -25,6 +25,7 @@
 #include "l1sign_gcrypt.h"
 
 #include "l1sign_cmd_genkey.h"
+#include "l1sign_cmd_pubkey.h"
 
 #include <config.h>
 
@@ -33,6 +34,11 @@ static const struct command commands[] = {
 		"genkey",
 		"Generate a random private key",
 		l1_cmd_genkey,
+	},
+	{
+		"pubkey",
+		"Generate a public key from a private key",
+		l1_cmd_pubkey,
 	},
 	{
 		NULL,
