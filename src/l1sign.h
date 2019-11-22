@@ -19,11 +19,32 @@
 #ifndef L1SIGN_H
 #define L1SIGN_H
 
+#define L1_OPT_NAME_HASH "hash"
+#define L1_OPT_NAME_MESSAGE "message"
+#define L1_OPT_NAME_VERBOSE "verbose"
+
 #include <stdbool.h>
 #include <stdio.h>
 
+#define L1_OPT_ACCEPT(cmd, val, name) \
+	do { \
+		if (!val) { \
+			print_opt_accept(cmd, name); \
+			return EXIT_FAILURE; \
+		} \
+	} while(0)
+
+#define L1_OPT_REJECT(cmd, val, name) \
+	do { \
+		if (val) { \
+			print_opt_reject(cmd, name); \
+			return EXIT_FAILURE; \
+		} \
+	} while(0)
+
 struct options {
 	int hash;
+	char *message;
 	bool verbose;
 };
 
@@ -37,6 +58,8 @@ const struct command *find_command(const char *name);
 void print_header(void);
 void print_cmd_usage(char *usage);
 void print_usage(FILE *out);
+void print_opt_accept(char *cmd, char *opt);
+void print_opt_reject(char *cmd, char *opt);
 int main(int argc, char **argv);
 
 #endif

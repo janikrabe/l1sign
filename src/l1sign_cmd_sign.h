@@ -16,33 +16,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef L1SIGN_GCRYPT_H
-#define L1SIGN_GCRYPT_H
+#ifndef L1SIGN_CMD_SIGN_H
+#define L1SIGN_CMD_SIGN_H
 
-#include <config.h>
+#include "l1sign.h"
 
-#define GCRYPT_NO_DEPRECATED
-#include <gcrypt.h>
-
-#define L1_SECMEM_EXTRA_NBYTES 8192
-
-#if SIZEOF_INT >= 4
-#	define L1_MAX_HASH_NBYTES 8192
-#else
-#	define L1_MAX_HASH_NBYTES 32
-#endif
-
-#include <stdbool.h>
-
-void l1_gcry_handle_err(const char *desc, gcry_error_t err);
-bool l1_gcry_init(int secmem_nbytes);
-void l1_gcry_term(void);
-int l1_gcry_check_hash(int algo);
-unsigned int l1_gcry_hash_nbytes(int algo);
-unsigned int l1_gcry_key_nbytes(int algo);
-gcry_md_hd_t l1_gcry_hash_hd_create(int algo, bool secure);
-void l1_gcry_hash_hd_destroy(gcry_md_hd_t hd);
-bool l1_gcry_hash_file(gcry_md_hd_t hd, FILE *in);
-void l1_gcry_print_digest(FILE *out, unsigned char *digest, size_t len);
+int l1_cmd_sign(const struct options *opts, int argc, char **argv);
 
 #endif

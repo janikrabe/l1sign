@@ -16,33 +16,18 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef L1SIGN_GCRYPT_H
-#define L1SIGN_GCRYPT_H
+#include "l1sign_util.h"
 
-#include <config.h>
+/*
+ * Get the bit with index 'bit' from data buffer 'data' of size 'len' bytes.
+ * If the bit is out of bounds, 0xff is returned.
+ */
+unsigned char l1_bit_get(unsigned char *data, size_t len, size_t bit) {
+	size_t byte_idx = bit / 8;
 
-#define GCRYPT_NO_DEPRECATED
-#include <gcrypt.h>
+	if (byte_idx >= len) {
+		return 0xff;
+	}
 
-#define L1_SECMEM_EXTRA_NBYTES 8192
-
-#if SIZEOF_INT >= 4
-#	define L1_MAX_HASH_NBYTES 8192
-#else
-#	define L1_MAX_HASH_NBYTES 32
-#endif
-
-#include <stdbool.h>
-
-void l1_gcry_handle_err(const char *desc, gcry_error_t err);
-bool l1_gcry_init(int secmem_nbytes);
-void l1_gcry_term(void);
-int l1_gcry_check_hash(int algo);
-unsigned int l1_gcry_hash_nbytes(int algo);
-unsigned int l1_gcry_key_nbytes(int algo);
-gcry_md_hd_t l1_gcry_hash_hd_create(int algo, bool secure);
-void l1_gcry_hash_hd_destroy(gcry_md_hd_t hd);
-bool l1_gcry_hash_file(gcry_md_hd_t hd, FILE *in);
-void l1_gcry_print_digest(FILE *out, unsigned char *digest, size_t len);
-
-#endif
+	return 0 != (data[byte_idx] & (1 << (7 - (bit % 8))));
+}

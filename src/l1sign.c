@@ -26,6 +26,7 @@
 
 #include "l1sign_cmd_genkey.h"
 #include "l1sign_cmd_pubkey.h"
+#include "l1sign_cmd_sign.h"
 
 #include <config.h>
 
@@ -39,6 +40,11 @@ static const struct command commands[] = {
 		"pubkey",
 		"Generate a public key from a private key",
 		l1_cmd_pubkey,
+	},
+	{
+		"sign",
+		"Sign a message with a private key",
+		l1_cmd_sign,
 	},
 	{
 		NULL,
@@ -87,6 +93,14 @@ void print_arg_required(char *opt) {
 	fprintf(stderr, "Option '%s' requires an argument\n", opt);
 }
 
+void print_opt_accept(char *cmd, char *opt) {
+	fprintf(stderr, "Command '%s' requires option '--%s'\n", cmd, opt);
+}
+
+void print_opt_reject(char *cmd, char *opt) {
+	fprintf(stderr, "Command '%s' does not accept option '--%s'\n", cmd, opt);
+}
+
 int main(int argc, char **argv) {
 	const struct command *cmd;
 	struct options opts = { 0 };
@@ -103,6 +117,13 @@ int main(int argc, char **argv) {
 
 			if (!(opts.hash = gcry_md_map_name(hash_name))) {
 				fprintf(stderr, "Unknown hash algorithm: %s\n", hash_name);
+				return EXIT_FAILURE;
+			}
+		} else if (!strcmp(argv[next], "-m") || !strcmp(argv[next], "--message")) {
+			opts.message = argv[++next];
+
+			if (!opts.message) {
+				print_arg_required(argv[next - 1]);
 				return EXIT_FAILURE;
 			}
 		} else if (!strcmp(argv[next], "-v") || !strcmp(argv[next], "--verbose")) {

@@ -29,6 +29,8 @@
 #define CMD_NAME "genkey"
 
 int l1_cmd_genkey(const struct options *opts, int argc, char **argv) {
+	L1_OPT_REJECT(CMD_NAME, opts->message, L1_OPT_NAME_MESSAGE);
+
 	if (argc > 1) {
 		print_cmd_usage(CMD_NAME " [output-file]");
 		return EXIT_FAILURE;

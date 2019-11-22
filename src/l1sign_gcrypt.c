@@ -18,6 +18,8 @@
 
 #include "l1sign_gcrypt.h"
 
+#define FILE_BUFFER_LEN 256
+
 #include <stdlib.h>
 
 void l1_gcry_handle_err(const char *desc, gcry_error_t err) {
@@ -116,4 +118,43 @@ gcry_md_hd_t l1_gcry_hash_hd_create(int algo, bool secure) {
 
 void l1_gcry_hash_hd_destroy(gcry_md_hd_t hd) {
 	gcry_md_close(hd);
+}
+
+/*
+ * Hash an entire file.
+ * Buffers are allocated in secure memory if and only if the digest object is
+ * allocated in secure memory.
+ */
+bool l1_gcry_hash_file(gcry_md_hd_t hd, FILE *in) {
+	void *(*mem_alloc)(size_t n) = gcry_md_is_secure(hd)
+		? gcry_malloc_secure
+		: gcry_malloc;
+	char *buf = mem_alloc(FILE_BUFFER_LEN);
+	bool ret = false;
+
+	for (;;) {
+		size_t len = fread(buf, 1, sizeof buf, in);
+
+		if (ferror(in)) {
+			break;
+		}
+
+		gcry_md_write(hd, buf, len);
+
+		if (feof(in)) {
+			ret = true;
+			break;
+		}
+	}
+
+	gcry_free(buf);
+	return ret;
+}
+
+void l1_gcry_print_digest(FILE *out, unsigned char *digest, size_t len) {
+	for (unsigned int i = 0; i < len; ++i) {
+		fprintf(out, "%02x", (unsigned char) digest[i]);
+	}
+
+	fprintf(out, "\n");
 }

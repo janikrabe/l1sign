@@ -8,4 +8,6 @@ l1sign_SOURCES = \
 	l1sign.c \
 	l1sign_cmd_genkey.c \
 	l1sign_cmd_pubkey.c \
+	l1sign_cmd_sign.c \
+	l1sign_util.c \
 	l1sign_gcrypt.c

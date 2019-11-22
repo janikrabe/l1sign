@@ -29,6 +29,8 @@
 #define CMD_NAME "pubkey"
 
 int l1_cmd_pubkey(const struct options *opts, int argc, char **argv) {
+	L1_OPT_REJECT(CMD_NAME, opts->message, L1_OPT_NAME_MESSAGE);
+
 	if (argc > 2) {
 		print_cmd_usage(CMD_NAME " [[secret-key-file] public-key-file]");
 		return EXIT_FAILURE;
