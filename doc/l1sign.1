@@ -1,0 +1,178 @@
+.\" l1sign - Implementation of the Lamport one-time signature scheme
+.\" Copyright (c) 2019  Janik Rabe <l1sign@janikrabe.com>
+.\"
+.\" This program is free software: you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation, either version 3 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This program is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+.TH l1sign 1 "1970-01-01" "version 0.0.0"
+
+.SH NAME
+
+\fBl1sign\fP - Implementation of the Lamport one-time signature scheme
+
+.SH SYNOPSIS
+
+\fBl1sign\fP [\fIOPTIONS\fP] <\fICOMMAND\fP> [\fIARGUMENTS\fP]
+
+.SH DESCRIPTION
+
+\fBl1sign\fP is an implementation of the Lamport one-time signature scheme.
+It allows users to create key pairs consisting of a secret key and a public
+key.
+The secret key can be used to sign a message at a later time.
+Anyone with a copy of a public key, a message, and a corresponding signature
+can verify the validity of the signature.
+
+The security of the Lamport signature scheme depends on the randomness of the
+secret key and the security and output size of a cryptographic hash function.
+A secret key must only be used to sign a single message; each additional
+signature reduces the security of the scheme by approximately one half.
+
+\fBl1sign\fP allows users to generate secret and public keys, sign messages,
+and verify message signatures.
+
+If "-" is specified instead of a file name, \fBl1sign\fP uses standard input or
+standard output, depending on whether the file is read from or written to.
+
+.SH OPTIONS
+
+\fB\-H, \-\-hash\fP=\fINAME\fP
+.RS 4
+Use the specified hash function.
+Supported hash functions include
+\fBblake2b_160\fP,
+\fBblake2b_256\fP,
+\fBblake2b_384\fP,
+\fBblake2b_512\fP,
+\fBblake2s_128\fP,
+\fBblake2s_160\fP,
+\fBblake2s_224\fP,
+\fBblake2s_256\fP,
+\fBgostr3411_94\fP,
+\fBsha3-224\fP,
+\fBsha3-256\fP,
+\fBsha3-384\fP,
+\fBsha3-512\fP,
+\fBshake128\fP,
+\fBshake256\fP,
+\fBsha224\fP,
+\fBsha256\fP,
+\fBsha384\fP,
+\fBsha512\fP,
+\fBstribog256\fP,
+\fBstribog512\fP, and
+\fBwhirlpool\fP.
+Note that this argument allows users to specify a number of non-cryptographic
+hash functions.  It is the user's responsibility to ensure that the specified
+hash function is secure.
+By default, \fBblake2b_512\fP is used.
+.RE
+
+\fB\-m, \-\-message\fP=\fIFILE\fP
+.RS 4
+Specify the file to be signed or verified.
+.RE
+
+\fB\-v, \-\-verbose\fP
+.RS 4
+Print diagnostic information during the operation.
+.RE
+
+\fB\-h, \-\-help\fP
+.RS 4
+Print the help and exit.
+.RE
+
+.SH COMMANDS
+
+\fBgenkey\fP <\fIsecret-key.l1sec\fP>
+.RS 4
+Generate a random secret key and save it to \fIsecret-key.l1sec\fP.
+If the output file already exists, it is overwritten.
+.RE
+
+\fBpubkey\fP <\fIsecret-key.l1sec\fP> <\fIpublic-key.l1pub\fP>
+.RS 4
+Generate the public key corresponding to secret key \fIsecret-key.l1sec\fP and
+save it to \fIpublic-key.l1pub\fP.
+If the output file already exists, it is overwritten.
+.RE
+
+\fBsign\fP <\fIsecret-key.l1sec\fP> <\fIsignature.l1sig\fP>
+.RS 4
+Sign the message given by the \fB\-\-message\fP option with secret key
+\fIsecret-key.l1sec\fP and save the resulting signature to
+\fIsignature.l1sig\fP.
+If the output file already exists, it is overwritten.
+.RE
+
+\fBverify\fP <\fIpublic-key.l1pub\fP> <\fIsignature.l1sig\fP>
+.RS 4
+Check whether \fIsignature.l1sig\fP is a valid signature for the message given
+by the \fB\-\-message\fP option and was generated with the secret key
+corresponding to the public key \fIpublic-key.l1pub\fP.
+.RE
+
+.SH EXAMPLES
+
+Generate a random secret key:
+.RS 4
+.Bd
+\fBl1sign\fP genkey \fIexample.l1sec\fP
+.Ed
+.RE
+
+Generate the corresponding public key:
+.RS 4
+.Bd
+\fBl1sign\fP pubkey \fIexample.l1sec\fP \fIexample.l1pub\fP
+.Ed
+.RE
+
+Sign a message:
+.RS 4
+.Bd
+\fBl1sign\fP -m \fImessage.txt\fP sign \fIexample.l1sec\fP \fIexample.l1sig\fP
+.Ed
+.RE
+
+Verify a signature:
+.RS 4
+.Bd
+\fBl1sign\fP -m \fImessage.txt\fP verify \fIexample.l1pub\fP \fIexample.l1sig\fP
+.Ed
+.RE
+
+.SH SECURITY
+
+\fBl1sign\fP has not received an independent security audit.
+We recommend that you use this program only in conjunction with an alternative
+implementation or signature scheme.
+
+\fBl1sign\fP does not delete secret keys after they are used to create a
+signature.
+It is the user's responsibility to ensure that each key is used only once.
+
+By default, \fBl1sign\fP stores sensitive information such as secret keys in
+secure memory pages that cannot be swapped out.
+However, some features such as hibernation (or "suspend to disk"), if used
+while \fBl1sign\fP is running, may nevertheless result in sensitive information
+being written to non-volatile storage, from where it may be recoverable later.
+
+.SH AUTHOR
+
+Janik Rabe <l1sign@janikrabe.com>
+.br
+.RS 4
+https://janikrabe.com/projects/l1sign/
+.PP
