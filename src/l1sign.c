@@ -27,6 +27,7 @@
 #include "l1sign_cmd_genkey.h"
 #include "l1sign_cmd_pubkey.h"
 #include "l1sign_cmd_sign.h"
+#include "l1sign_cmd_verify.h"
 
 #include <config.h>
 
@@ -45,6 +46,11 @@ static const struct command commands[] = {
 		"sign",
 		"Sign a message with a private key",
 		l1_cmd_sign,
+	},
+	{
+		"verify",
+		"Verify a message signature",
+		l1_cmd_verify,
 	},
 	{
 		NULL,
