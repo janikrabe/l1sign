@@ -12,3 +12,12 @@ l1sign_SOURCES = \
 	l1sign_cmd_verify.c \
 	l1sign_util.c \
 	l1sign_gcrypt.c
+
+noinst_HEADERS = \
+	l1sign.h \
+	l1sign_cmd_genkey.h \
+	l1sign_cmd_pubkey.h \
+	l1sign_cmd_sign.h \
+	l1sign_cmd_verify.h \
+	l1sign_util.h \
+	l1sign_gcrypt.h
