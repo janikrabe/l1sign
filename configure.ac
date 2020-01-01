@@ -15,7 +15,7 @@ dnl You should have received a copy of the GNU General Public License
 dnl along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 AC_INIT([l1sign],
-        [0.0.0],
+        [0.1.0],
         [l1sign@janikrabe.com],,
         [https://janikrabe.com/projects/l1sign/])
 AM_INIT_AUTOMAKE([foreign])
