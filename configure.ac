@@ -18,7 +18,7 @@ AC_INIT([l1sign],
         [0.2.0],
         [l1sign@janikrabe.com],,
         [https://janikrabe.com/projects/l1sign/])
-AM_INIT_AUTOMAKE([foreign])
+AM_INIT_AUTOMAKE([dist-bzip2 dist-xz dist-zip dist-zstd foreign])
 
 AC_DEFINE(PACKAGE_AUTHOR, ["Janik Rabe"], [author])
 
