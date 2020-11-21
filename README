@@ -12,7 +12,7 @@ verify signatures.
 The INSTALL file contains instructions for installing l1sign.  Please consult
 the l1sign(1) manual page for information on how to use l1sign.
 
-l1sign is maintained by Janik Rabe <l1sign@janikrabe.com>.
+l1sign is maintained by Janik Rabe <info@janikrabe.com>.
 
 The most recent version of l1sign is available from
 <https://files.janikrabe.com/pub/l1sign/releases/latest/>.

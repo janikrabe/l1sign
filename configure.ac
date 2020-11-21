@@ -1,5 +1,5 @@
 dnl l1sign - Implementation of the Lamport one-time signature scheme
-dnl Copyright (c) 2019  Janik Rabe <l1sign@janikrabe.com>
+dnl Copyright (c) 2019  Janik Rabe <info@janikrabe.com>
 dnl
 dnl This program is free software: you can redistribute it and/or modify
 dnl it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@ dnl along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 AC_INIT([l1sign],
         [0.2.0],
-        [l1sign@janikrabe.com],,
+        [info@janikrabe.com],,
         [https://janikrabe.com/projects/l1sign/])
 AM_INIT_AUTOMAKE([dist-bzip2 dist-xz dist-zip dist-zstd foreign])
 
