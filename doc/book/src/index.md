@@ -1,16 +1,16 @@
----
-# Copyright (c)  2019-2020  Janik Rabe
-#
-# Permission is granted to copy, distribute and/or modify this document
-# under the terms of the GNU Free Documentation License, Version 1.3
-# or any later version published by the Free Software Foundation;
-# with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
-# A copy of the license is included in the file 'COPYING.DOC'
+<!--
+Copyright (c)  2019-2020  Janik Rabe
 
-title: "About l1sign"
----
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3
+or any later version published by the Free Software Foundation;
+with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+A copy of the license is included in the file 'COPYING.DOC'
+-->
 
-{{% project-detail "description" %}}.
+# About l1sign
+
+_Implementation of the Lamport one-time signature scheme._
 
 l1sign is a portable implementation of the Lamport-Diffie one-time signature
 scheme (LD-OTS).  It allows users to generate key pairs, sign messages, and
@@ -19,11 +19,6 @@ verify signatures.
 Detailed documentation for l1sign can be found in the `l1sign(1)` manual page.
 
 ## Installation
-
-{{% alert "primary" "Looking for the download link?" %}}
-You can download l1sign from the
-[project website]({{% ref "/projects/l1sign" %}}).
-{{% /alert %}}
 
 Please see the `INSTALL` file for detailed installation instructions.
 
