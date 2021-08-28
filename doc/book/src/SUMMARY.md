@@ -9,5 +9,3 @@ A copy of the license is included in the file 'COPYING.DOC'
 -->
 
 [About l1sign](index.md)
-
-[Download](download.md)
