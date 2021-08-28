@@ -1,4 +1,4 @@
-.\" l1sign - Implementation of the Lamport one-time signature scheme
+.\" l1sign - Implementation of the Lamport-Diffie one-time signature scheme
 .\" Copyright (c) 2019  Janik Rabe <info@janikrabe.com>
 .\"
 .\" This program is free software: you can redistribute it and/or modify
@@ -18,7 +18,7 @@
 
 .SH NAME
 
-\fBl1sign\fP - Implementation of the Lamport one-time signature scheme
+\fBl1sign\fP - Implementation of the Lamport-Diffie one-time signature scheme
 
 .SH SYNOPSIS
 
@@ -26,15 +26,17 @@
 
 .SH DESCRIPTION
 
-\fBl1sign\fP is an implementation of the Lamport one-time signature scheme.
+\fBl1sign\fP is an implementation of the Lamport-Diffie one-time signature
+scheme.
 It allows users to create key pairs consisting of a secret key and a public
 key.
 The secret key can be used to sign a message at a later time.
 Anyone with a copy of a public key, a message, and a corresponding signature
 can verify the validity of the signature.
 
-The security of the Lamport signature scheme depends on the randomness of the
-secret key and the security and output size of a cryptographic hash function.
+The security of the Lamport-Diffie signature scheme depends on the randomness
+of the secret key and the security and output size of a cryptographic hash
+function.
 A secret key must only be used to sign a single message; each additional
 signature reduces the security of the scheme by approximately one half.
 

@@ -1,5 +1,5 @@
 /*
- * l1sign - Implementation of the Lamport one-time signature scheme
+ * l1sign - Implementation of the Lamport-Diffie one-time signature scheme
  * Copyright (c) 2019  Janik Rabe <info@janikrabe.com>
  *
  * This program is free software: you can redistribute it and/or modify

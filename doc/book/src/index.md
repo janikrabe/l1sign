@@ -10,7 +10,7 @@ A copy of the license is included in the file 'COPYING.DOC'
 
 # About l1sign
 
-_Implementation of the Lamport one-time signature scheme._
+_Implementation of the Lamport-Diffie one-time signature scheme._
 
 l1sign is a portable implementation of the Lamport-Diffie one-time signature
 scheme (LD-OTS).  It allows users to generate key pairs, sign messages, and

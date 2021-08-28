@@ -1,4 +1,4 @@
-dnl l1sign - Implementation of the Lamport one-time signature scheme
+dnl l1sign - Implementation of the Lamport-Diffie one-time signature scheme
 dnl Copyright (c) 2019  Janik Rabe <info@janikrabe.com>
 dnl
 dnl This program is free software: you can redistribute it and/or modify
